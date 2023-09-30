@@ -1,5 +1,6 @@
 package com.lerson.clonegram.models;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -7,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Feed extends User {
 
     @Id
-    private String id;
+    private ObjectId id;
     private String localName;
     private String imageUrl;
     private String description;
@@ -19,24 +20,15 @@ public class Feed extends User {
         super();
     }
 
-    public Feed(String userNickName, String userAvatar, String id, String localName, String imageUrl,
+    public Feed(String userNickName, String userAvatar, String localName, String imageUrl,
                 String description, String postedAgo, Integer contLikes, Integer commentLikes) {
         super(userNickName, userAvatar);
-        this.id = id;
         this.localName = localName;
         this.imageUrl = imageUrl;
         this.description = description;
         this.postedAgo = postedAgo;
         this.contLikes = contLikes;
         this.commentLikes = commentLikes;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getLocalName() {
