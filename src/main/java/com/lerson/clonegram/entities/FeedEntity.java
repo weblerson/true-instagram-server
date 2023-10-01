@@ -16,6 +16,18 @@ public class FeedEntity {
     private Integer commentLikes;
 
     public FeedEntity(String userNickName, MultipartFile userAvatar, String localName, MultipartFile image,
+                      String description, Date postedAgo) {
+        this.userNickName = userNickName;
+        this.userAvatar = userAvatar;
+        this.localName = localName;
+        this.image = image;
+        this.description = description;
+        this.postedAgo = postedAgo;
+        this.contLikes = 0;
+        this.commentLikes = 0;
+    }
+
+    public FeedEntity(String userNickName, MultipartFile userAvatar, String localName, MultipartFile image,
                       String description, Date postedAgo, Integer contLikes, Integer commentLikes) {
         this.userNickName = userNickName;
         this.userAvatar = userAvatar;
