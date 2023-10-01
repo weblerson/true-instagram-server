@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class FeedService {
@@ -48,10 +49,35 @@ public class FeedService {
         return new FeedMinDTO(createdFeed);
     }
 
+    public Optional<FeedMinDTO> findByIdMin(String id) {
+
+        Optional<Feed> opt = this.feedRepository.findById(id);
+
+        return opt.map(FeedMinDTO::new);
+    }
+
     public List<FeedDTO> findAllFeeds() {
 
         List<Feed> feeds = this.feedRepository.findAll();
 
         return feeds.stream().map(FeedDTO::new).toList();
+    }
+
+    public void incrementContLikes(String id) {
+
+        Optional<Feed> opt = this.feedRepository.findById(id);
+        opt.ifPresent((Feed feed) -> {
+            feed.setContLikes(feed.getContLikes() + 1);
+            this.feedRepository.save(feed);
+        });
+    }
+
+    public void incrementCommentLikes(String id) {
+
+        Optional<Feed> opt = this.feedRepository.findById(id);
+        opt.ifPresent((Feed feed) -> {
+            feed.setCommentLikes(feed.getCommentLikes() + 1);
+            this.feedRepository.save(feed);
+        });
     }
 }
