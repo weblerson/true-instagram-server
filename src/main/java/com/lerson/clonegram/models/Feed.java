@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Feed extends User {
 
     @Id
-    private ObjectId id;
+    private String id;
     private String localName;
     private String imageUrl;
     private String description;
@@ -29,6 +29,14 @@ public class Feed extends User {
         this.postedAgo = postedAgo;
         this.contLikes = contLikes;
         this.commentLikes = commentLikes;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getLocalName() {
