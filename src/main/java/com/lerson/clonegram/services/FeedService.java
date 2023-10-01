@@ -26,8 +26,10 @@ public class FeedService {
     MultipartFileHandler multipartFileHandler;
 
     public FeedMinDTO createFeed(FeedEntity feedEntity) throws IOException {
-        String userAvatarName = this.multipartFileHandler.saveFile(feedEntity.getUserAvatar());
-        String feedImageName = this.multipartFileHandler.saveFile(feedEntity.getImage());
+        String userAvatarName = this.multipartFileHandler.saveFile(feedEntity.getUserAvatar(),
+                String.format("%s/avatars", this.uploadDir));
+        String feedImageName = this.multipartFileHandler.saveFile(feedEntity.getImage(),
+                String.format("%s/images", this.uploadDir));
 
         String userAvatarUrl = String.format("%s/avatars/%s", this.uploadDir, userAvatarName);
         String feedImageUrl = String.format("%s/images/%s", this.uploadDir, feedImageName);

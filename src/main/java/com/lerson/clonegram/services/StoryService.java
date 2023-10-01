@@ -26,7 +26,7 @@ public class StoryService {
     MultipartFileHandler multipartFileHandler;
 
     public StoryDTO createStory(StoryEntity storyEntity) throws IOException {
-        String fileName = this.multipartFileHandler.saveFile(storyEntity.getUserAvatar());
+        String fileName = this.multipartFileHandler.saveFile(storyEntity.getUserAvatar(), uploadDir);
         String imageUrl = String.format("/media/stories/%s", fileName);
 
         Story createdStory = storyRepository.save(new Story(storyEntity.getUserNickName(), imageUrl));
