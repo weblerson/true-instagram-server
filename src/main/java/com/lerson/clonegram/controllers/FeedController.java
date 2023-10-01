@@ -15,6 +15,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/feeds")
@@ -46,5 +47,23 @@ public class FeedController {
     public ResponseEntity<List<FeedDTO>> findAllFeeds() {
 
         return ResponseEntity.ok(this.feedService.findAllFeeds());
+    }
+
+    @PatchMapping(value = "/{id}")
+    public ResponseEntity<FeedMinDTO> increment(
+            @PathVariable String id,
+            @RequestParam(name = "contLikes", required = false, defaultValue = "false") Boolean contLikes,
+            @RequestParam(name = "commentLikes", required = false, defaultValue = "false") Boolean commentLikes) {
+
+        Optional<FeedMinDTO> opt = this.feedService.findByIdMin(id);
+
+        if (contLikes)
+            this.feedService.incrementContLikes(id);
+
+        if (commentLikes)
+            this.feedService.incrementCommentLikes(id);
+
+        return opt.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NO_CONTENT)
+                .body(new FeedMinDTO()));
     }
 }
