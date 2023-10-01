@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Story extends User {
 
     @Id
-    private ObjectId id;
+    private String id;
 
     public Story() {
         super();
@@ -16,5 +16,13 @@ public class Story extends User {
 
     public Story(String userNickName, String userAvatar) {
         super(userNickName, userAvatar);
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
