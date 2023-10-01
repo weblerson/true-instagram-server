@@ -1,5 +1,7 @@
 package com.lerson.clonegram.services;
 
+import com.lerson.clonegram.dto.FeedDTO;
+import com.lerson.clonegram.dto.FeedMinDTO;
 import com.lerson.clonegram.entities.FeedEntity;
 import com.lerson.clonegram.models.Feed;
 import com.lerson.clonegram.repository.FeedRepository;
@@ -23,7 +25,7 @@ public class FeedService {
     @Autowired
     MultipartFileHandler multipartFileHandler;
 
-    public Feed createFeed(FeedEntity feedEntity) throws IOException {
+    public FeedMinDTO createFeed(FeedEntity feedEntity) throws IOException {
         String userAvatarName = this.multipartFileHandler.saveFile(feedEntity.getUserAvatar());
         String feedImageName = this.multipartFileHandler.saveFile(feedEntity.getImage());
 
@@ -32,15 +34,19 @@ public class FeedService {
 
         String postedAgo = new SimpleDateFormat("dd/MM/yyyy").format(feedEntity.getPostedAgo());
 
-        return this.feedRepository.save(new Feed(
+        Feed createdFeed = this.feedRepository.save(new Feed(
                 feedEntity.getUserNickName(), userAvatarUrl, feedEntity.getLocalName(), feedImageUrl,
                 feedEntity.getDescription(), postedAgo, feedEntity.getContLikes(),
                 feedEntity.getCommentLikes()
         ));
+
+        return new FeedMinDTO(createdFeed);
     }
 
-    public List<Feed> findAllFeeds() {
+    public List<FeedDTO> findAllFeeds() {
 
-        return this.feedRepository.findAll();
+        List<Feed> feeds = this.feedRepository.findAll();
+
+        return feeds.stream().map(FeedDTO::new).toList();
     }
 }
