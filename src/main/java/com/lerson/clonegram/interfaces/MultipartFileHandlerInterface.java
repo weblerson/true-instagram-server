@@ -7,5 +7,5 @@ import java.io.IOException;
 
 public interface MultipartFileHandlerInterface {
 
-    String saveFile(MultipartFile file) throws IOException;
+    String saveFile(MultipartFile file, String uploadDir) throws IOException;
 }

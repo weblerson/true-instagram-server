@@ -12,13 +12,10 @@ import java.util.UUID;
 @Service
 public class MultipartFileHandler implements MultipartFileHandlerInterface {
 
-    @Value("${file.story.upload-dir}")
-    private String uploadDir;
-
     @Override
-    public String saveFile(MultipartFile file) throws IOException {
+    public String saveFile(MultipartFile file, String uploadDir) throws IOException {
         String fileName = this.generateUniqueFileName(file.getOriginalFilename());
-        String filePath = this.generateFilePath(this.uploadDir, fileName);
+        String filePath = this.generateFilePath(uploadDir, fileName);
         this.transferFile(file, filePath);
 
         return fileName;
