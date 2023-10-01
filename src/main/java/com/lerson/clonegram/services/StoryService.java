@@ -8,10 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class StoryService {
@@ -23,10 +21,10 @@ public class StoryService {
     StoryRepository storyRepository;
 
     @Autowired
-    MultipartFileHandler multipartFileHandler;
+    StorageService storageService;
 
     public StoryDTO createStory(StoryEntity storyEntity) throws IOException {
-        String fileName = this.multipartFileHandler.saveFile(storyEntity.getUserAvatar(), uploadDir);
+        String fileName = this.storageService.saveFile(storyEntity.getUserAvatar(), uploadDir);
         String imageUrl = String.format("/media/stories/%s", fileName);
 
         Story createdStory = storyRepository.save(new Story(storyEntity.getUserNickName(), imageUrl));

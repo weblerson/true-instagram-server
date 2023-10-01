@@ -16,19 +16,22 @@ import java.util.List;
 @Service
 public class FeedService {
 
+    private final FeedRepository feedRepository;
+    private final StorageService storageService;
+
     @Value("${file.feed.upload-dir}")
     private String uploadDir;
 
     @Autowired
-    FeedRepository feedRepository;
-
-    @Autowired
-    MultipartFileHandler multipartFileHandler;
+    public FeedService(FeedRepository feedRepository, StorageService storageService) {
+        this.feedRepository = feedRepository;
+        this.storageService = storageService;
+    }
 
     public FeedMinDTO createFeed(FeedEntity feedEntity) throws IOException {
-        String userAvatarName = this.multipartFileHandler.saveFile(feedEntity.getUserAvatar(),
+        String userAvatarName = this.storageService.saveFile(feedEntity.getUserAvatar(),
                 String.format("%s/avatars", this.uploadDir));
-        String feedImageName = this.multipartFileHandler.saveFile(feedEntity.getImage(),
+        String feedImageName = this.storageService.saveFile(feedEntity.getImage(),
                 String.format("%s/images", this.uploadDir));
 
         String userAvatarUrl = String.format("%s/avatars/%s", this.uploadDir, userAvatarName);

@@ -1,7 +1,6 @@
 package com.lerson.clonegram.services;
 
 import com.lerson.clonegram.interfaces.MultipartFileHandlerInterface;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -10,7 +9,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 @Service
-public class MultipartFileHandler implements MultipartFileHandlerInterface {
+public class StorageService implements MultipartFileHandlerInterface {
 
     @Override
     public String saveFile(MultipartFile file, String uploadDir) throws IOException {
