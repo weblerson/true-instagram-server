@@ -1,6 +1,16 @@
-version: "3"
+version: "3.5"
 
 services:
+
+  spring:
+    container_name: spring
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    command:
+      sh -c "sleep 10 && java -jar app.jar"
+    ports:
+      - "8080:8080"
 
   mongo:
     container_name: mongodb
