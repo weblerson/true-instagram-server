@@ -37,5 +37,16 @@ services:
       ME_CONFIG_MONGODB_ADMINPASSWORD: ${ME_CONFIG_MONGODB_ADMINPASSWORD}
       ME_CONFIG_MONGODB_URL: ${ME_CONFIG_MONGODB_URL}
 
+  nginx:
+    container_name: server
+    build:
+      dockerfile: Dockerfile
+      context: ./nginx
+    command: ["sh", "-c", "sleep 20 && nginx -g 'daemon off;'"]
+    volumes:
+      - ./media:/media
+    ports:
+      - "5173:5173"
+
 volumes:
   mongodb_data:
