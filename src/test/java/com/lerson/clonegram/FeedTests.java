@@ -207,4 +207,16 @@ public class FeedTests {
             assertEquals(before.get().getCommentLikes() + 1, after.get().getCommentLikes());
         }
     }
+
+    @Test
+    void testIfIncrementReturnsHttpBadRequestIfNoQueryParamIsGiven() throws Exception {
+
+        String id = this.createFeedAndGetId();
+
+        this.mockMvc.perform(
+                patch("/feeds/".concat(id))
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
 }
