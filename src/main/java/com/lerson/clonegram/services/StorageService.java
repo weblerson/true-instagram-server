@@ -1,5 +1,6 @@
 package com.lerson.clonegram.services;
 
+import com.lerson.clonegram.exceptions.StorageException;
 import com.lerson.clonegram.interfaces.MultipartFileHandlerInterface;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,12 +13,18 @@ import java.util.UUID;
 public class StorageService implements MultipartFileHandlerInterface {
 
     @Override
-    public String saveFile(MultipartFile file, String uploadDir) throws IOException {
-        String fileName = this.generateUniqueFileName(file.getOriginalFilename());
-        String filePath = this.generateFilePath(uploadDir, fileName);
-        this.transferFile(file, filePath);
+    public String saveFile(MultipartFile file, String uploadDir) {
 
-        return fileName;
+        try {
+            String fileName = this.generateUniqueFileName(file.getOriginalFilename());
+            String filePath = this.generateFilePath(uploadDir, fileName);
+            this.transferFile(file, filePath);
+
+            return fileName;
+        } catch (IOException e) {
+
+            throw new StorageException(e.getMessage());
+        }
     }
 
     private String generateUniqueFileName(String originalFileName) {
