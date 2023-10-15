@@ -80,29 +80,29 @@ public class FeedService {
 
     public void incrementContLikes(String id) {
 
-        Optional<Feed> opt = this.feedRepository.findById(id);
-        opt.ifPresent((Feed feed) -> {
-            try {
+        try {
+            Optional<Feed> opt = this.feedRepository.findById(id);
+            opt.ifPresent((Feed feed) -> {
                 feed.setContLikes(feed.getContLikes() + 1);
                 this.feedRepository.save(feed);
-            } catch (IllegalArgumentException e) {
+            });
+        } catch (IllegalArgumentException e) {
 
-                throw new DBException(e.getMessage());
-            }
-        });
+            throw new DBException(e.getMessage());
+        }
     }
 
     public void incrementCommentLikes(String id) {
 
-        Optional<Feed> opt = this.feedRepository.findById(id);
-        opt.ifPresent((Feed feed) -> {
-            try {
+        try {
+            Optional<Feed> opt = this.feedRepository.findById(id);
+            opt.ifPresent((Feed feed) -> {
                 feed.setCommentLikes(feed.getCommentLikes() + 1);
                 this.feedRepository.save(feed);
-            } catch (IllegalArgumentException e) {
+            });
+        } catch (IllegalArgumentException e) {
 
-                throw new DBException(e.getMessage());
-            }
-        });
+            throw new DBException(e.getMessage());
+        }
     }
 }
