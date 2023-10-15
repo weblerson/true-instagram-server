@@ -128,7 +128,9 @@ public class FeedTests {
         this.mockMvc.perform(
                 patch("/feeds/".concat(id))
                         .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .queryParam("contLikes", "true")
+                        .queryParam("commentLikes", "true"))
                 .andExpect(status().isOk());
     }
 
@@ -140,7 +142,9 @@ public class FeedTests {
         this.mockMvc.perform(
                 patch("/feeds/".concat(id))
                         .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .queryParam("contLikes", "true")
+                        .queryParam("commentLikes", "true"))
                 .andExpect(status().isNoContent());
     }
 
