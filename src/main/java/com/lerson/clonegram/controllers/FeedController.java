@@ -3,7 +3,9 @@ package com.lerson.clonegram.controllers;
 import com.lerson.clonegram.dto.FeedDTO;
 import com.lerson.clonegram.dto.FeedMinDTO;
 import com.lerson.clonegram.entities.FeedEntity;
+import com.lerson.clonegram.exceptions.AllQueryParamsMissingException;
 import com.lerson.clonegram.services.FeedService;
+import com.lerson.clonegram.util.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,10 +34,9 @@ public class FeedController {
     public ResponseEntity<FeedMinDTO> createFeed(
             @RequestParam("userNickName") String userNickName, @RequestParam("userAvatar") MultipartFile userAvatar,
             @RequestParam("localName") String localName, @RequestParam("image") MultipartFile image,
-            @RequestParam("description") String description, @RequestParam("postedDate") String postedDate)
-            throws IOException, ParseException {
+            @RequestParam("description") String description, @RequestParam("postedDate") String postedDate) {
 
-        Date postedAgo = new SimpleDateFormat("dd/MM/yyyy").parse(postedDate);
+        Date postedAgo = TimeUtil.parseDateOfString(postedDate);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(this.feedService.createFeed(new FeedEntity(
@@ -62,6 +63,9 @@ public class FeedController {
 
         if (commentLikes)
             this.feedService.incrementCommentLikes(id);
+
+        if (! contLikes && ! commentLikes)
+            throw new AllQueryParamsMissingException("Missing all query params.");
 
         return opt.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NO_CONTENT)
                 .body(new FeedMinDTO()));
