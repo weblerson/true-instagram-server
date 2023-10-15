@@ -18,13 +18,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class StoryCreationTests {
+public class StoryTests {
 
     private final StoryRepository storyRepository;
     private final MockMvc mockMvc;
 
     @Autowired
-    public StoryCreationTests(StoryRepository storyRepository, MockMvc mockMvc) {
+    public StoryTests(StoryRepository storyRepository, MockMvc mockMvc) {
 
         this.storyRepository = storyRepository;
         this.mockMvc = mockMvc;
