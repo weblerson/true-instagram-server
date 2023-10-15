@@ -16,8 +16,13 @@ import java.util.List;
 @RequestMapping(value = "/stories")
 public class StoryController {
 
+    private final StoryService storyService;
+
     @Autowired
-    StoryService storyService;
+    public StoryController(StoryService storyService) {
+
+        this.storyService = storyService;
+    }
 
     @PostMapping
     public ResponseEntity<StoryDTO> createStory(@RequestParam("userAvatar") MultipartFile userAvatar,

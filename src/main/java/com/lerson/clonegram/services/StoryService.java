@@ -14,14 +14,18 @@ import java.util.List;
 @Service
 public class StoryService {
 
+    private final StoryRepository storyRepository;
+    private final StorageService storageService;
+
     @Value("${file.story.upload-dir}")
     private String uploadDir;
 
     @Autowired
-    StoryRepository storyRepository;
+    public StoryService(StoryRepository storyRepository, StorageService storageService) {
 
-    @Autowired
-    StorageService storageService;
+        this.storyRepository = storyRepository;
+        this.storageService = storageService;
+    }
 
     public StoryDTO createStory(StoryEntity storyEntity) throws IOException {
         String fileName = this.storageService.saveFile(storyEntity.getUserAvatar(), uploadDir);
