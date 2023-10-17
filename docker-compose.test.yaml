@@ -1,0 +1,30 @@
+version: "3.5"
+
+services:
+
+  spring:
+    container_name: tests
+    build:
+      context: ./
+      dockerfile: Dockerfile.test
+    volumes:
+      - maven-volumes:/root/.m2/repository
+    command:
+      sh -c "sleep 10 && mvn test -Dspring.profiles.active=test"
+    ports:
+      - "8080:8080"
+
+  mongo:
+    container_name: test-mongodb
+    image: mongo
+    restart: always
+    env_file:
+      - test.env
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+
+volumes:
+  maven-volumes:
