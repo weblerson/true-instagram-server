@@ -2,19 +2,19 @@ version: "3.5"
 
 services:
 
-  spring:
+  spring-test:
     container_name: tests
     build:
       context: ./
       dockerfile: Dockerfile.test
     volumes:
-      - maven-volumes:/root/.m2/repository
+      - maven-volumes:/root/.m2
     command:
-      sh -c "sleep 10 && mvn test -Dspring.profiles.active=test"
+      sh -c "sleep 10 && mvn -Dspring.profiles.active=test test"
     ports:
       - "8080:8080"
 
-  mongo:
+  mongo-test:
     container_name: test-mongodb
     image: mongo
     restart: always
