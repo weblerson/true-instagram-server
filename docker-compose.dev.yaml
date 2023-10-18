@@ -2,38 +2,39 @@ version: "3.5"
 
 services:
 
-  spring:
-    container_name: spring
+  spring-dev:
+    container_name: spring-dev
     build:
       context: ./
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     volumes:
+      - maven_dev_dependencies:/root/.m2
       - ./media:/media
     command:
-      sh -c "sleep 10 && java -jar app.jar --spring.profiles.active=dev"
+      sh -c "sleep 10 && java -Dspring.profiles.active=dev -jar app.jar"
     ports:
       - "8080:8080"
 
-  mongo:
-    container_name: mongodb
+  mongo-dev:
+    container_name: mongodb-dev
     image: mongo
     restart: always
     env_file:
-      - .env
+      - dev.env
     ports:
       - "27017:27017"
     volumes:
-      - mongodb_data:/data/db
+      - mongodb_dev_data:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
 
-  mongo-express:
-    container_name: mongo-express
+  mongo-express-dev:
+    container_name: mongo-express-dev
     image: mongo-express
     restart: always
     env_file:
-      - .env
+      - dev.env
     ports:
       - "8081:8081"
     environment:
@@ -41,10 +42,10 @@ services:
       ME_CONFIG_MONGODB_ADMINPASSWORD: ${ME_CONFIG_MONGODB_ADMINPASSWORD}
       ME_CONFIG_MONGODB_URL: ${ME_CONFIG_MONGODB_URL}
 
-  nginx:
-    container_name: server
+  nginx-dev:
+    container_name: dev-server
     build:
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
       context: ./nginx
     command: ["sh", "-c", "sleep 20 && nginx -g 'daemon off;'"]
     volumes:
@@ -53,4 +54,5 @@ services:
       - "5173:5173"
 
 volumes:
-  mongodb_data:
+  maven_dev_dependencies:
+  mongodb_dev_data:
