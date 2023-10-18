@@ -1,10 +1,12 @@
-FROM openjdk:17
+FROM nginx:latest
+
+COPY nginx.dev.conf /etc/nginx/nginx.conf
 
 RUN mkdir /media/stories
 RUN mkdir /media/feeds
 RUN mkdir /media/feeds/avatars
 RUN mkdir /media/feeds/images
 
-COPY target/clonegram-0.0.1-SNAPSHOT.jar /app.jar
+EXPOSE 5173
 
-CMD ["java", "-jar", "app.jar"]
+CMD ["nginx", "-g", "daemon off;"]
