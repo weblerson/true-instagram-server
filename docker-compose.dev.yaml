@@ -51,7 +51,7 @@ services:
     volumes:
       - ./media:/media
     ports:
-      - "5173:5173"
+      - "80:5173"
 
 volumes:
   maven_dev_dependencies:
