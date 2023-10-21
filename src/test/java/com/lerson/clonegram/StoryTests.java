@@ -77,14 +77,18 @@ public class StoryTests {
     @Test
     void testIfCreateStoryReturnsCreated() throws Exception {
 
-        String stringData = "testNickName";
         MockMultipartFile mockMultipartFile = new MockMultipartFile(
                 "userAvatar", "file.jpeg", MediaType.IMAGE_JPEG_VALUE, new byte[]{1,2,3,4,5});
+
+        MockMultipartFile json = new MockMultipartFile(
+                "userNickName", null, MediaType.APPLICATION_JSON_VALUE,
+                "{\"userNickName\": \"testNickName\"}".getBytes()
+        );
 
         this.mockMvc.perform(
                 MockMvcRequestBuilders.multipart("/stories")
                         .file(mockMultipartFile)
-                        .param("userNickName", stringData))
+                        .file(json))
                         .andExpect(MockMvcResultMatchers.status().isCreated());
     }
 

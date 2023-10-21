@@ -16,9 +16,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-
 import java.util.Optional;
 import java.util.UUID;
 
@@ -39,7 +36,10 @@ public class FeedTests {
     }
 
     private static Feed feed;
-    private static MultiValueMap<String, String> params;
+    private static MockMultipartFile userNickName;
+    private static MockMultipartFile localName;
+    private static MockMultipartFile description;
+    private static MockMultipartFile postedDate;
 
     private static MockMultipartFile createTestJpeg(String param) {
 
@@ -56,7 +56,10 @@ public class FeedTests {
                         multipart("/feeds")
                                 .file(userAvatar)
                                 .file(image)
-                                .params(params))
+                                .file(userNickName)
+                                .file(localName)
+                                .file(description)
+                                .file(postedDate))
                 .andExpect(status().isCreated())
                 .andReturn();
 
@@ -80,11 +83,25 @@ public class FeedTests {
         feed.setContLikes(1);
         feed.setCommentLikes(1);
 
-        params = new LinkedMultiValueMap<>();
-        params.add("userNickName", "testNickName");
-        params.add("localName", "testLocalName");
-        params.add("description", "testDescription");
-        params.add("postedDate", "00/00/0000");
+        userNickName = new MockMultipartFile(
+                "userNickName", null, MediaType.APPLICATION_JSON_VALUE,
+                "{\"userNickName\":\"testNickName\"}".getBytes()
+        );
+
+        localName = new MockMultipartFile(
+                "localName", null, MediaType.APPLICATION_JSON_VALUE,
+                "{\"localName\":\"testLocalName\"}".getBytes()
+        );
+
+        description = new MockMultipartFile(
+                "description", null, MediaType.APPLICATION_JSON_VALUE,
+                "{\"description\":\"testDescription\"}".getBytes()
+        );
+
+        postedDate = new MockMultipartFile(
+                "postedDate", null, MediaType.APPLICATION_JSON_VALUE,
+                "01/10/2023".getBytes()
+        );
     }
 
     @Test
@@ -106,7 +123,10 @@ public class FeedTests {
                 multipart("/feeds")
                         .file(userAvatar)
                         .file(image)
-                        .params(params))
+                        .file(userNickName)
+                        .file(localName)
+                        .file(description)
+                        .file(postedDate))
                 .andExpect(status().isCreated());
     }
 
