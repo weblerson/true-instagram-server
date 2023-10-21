@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -39,10 +38,10 @@ public class StoryController {
                     description = "Avatar image to be uploaded",
                     content = @Content(mediaType = MediaType.APPLICATION_OCTET_STREAM_VALUE)
             )
-            @RequestParam("userAvatar") MultipartFile userAvatar,
+            @RequestPart("userAvatar") MultipartFile userAvatar,
 
             @Parameter(description = "User nickname")
-            @RequestParam("userNickName") String userNickName) throws IOException {
+            @RequestPart("userNickName") String userNickName) {
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(this.storyService.createStory(new StoryEntity(userNickName, userAvatar)));
