@@ -71,4 +71,10 @@ docker compose -f docker-compose.dev.yaml --env-file dev.env up --build
 - ### Vale lembrar que a primeira execução vai ser mais demorada, pois o Maven precisa baixar as dependências necessárias
 
 ## Pronto!
-Agora, seus que seus serviços estão no ar...
+Esse projeto implementa o Swagger para documentar a API. Todas as controllers foram anotadas
+para dar a melhor descrição possível e manter o pleno funcionamento da API a partir do Swagger.
+
+Agora que seus serviços estão no ar, só checar a documentação acessando o Swagger: 
+[Link para acessar o Swagger UI](http://localhost/swagger-ui/index.html#/])
+
+__Acessar somente após subir os serviços de desenvolvimento.__
